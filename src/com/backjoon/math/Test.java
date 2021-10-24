@@ -1,5 +1,7 @@
 package com.backjoon.math;
 
+import java.text.DateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Test {
@@ -28,12 +30,16 @@ public class Test {
         memo = new int[n][m];
         this.n = n;
         this.m = m;
-        this.visited = new int[n][m];
+        visited = new int[n][m];
         
         dfs(0, 0, -1, 1, cityMap);
         
         answer = memo[n-1][m-1];
         
+        Date date = new Date();
+        date.getTime();
+        
+       
         return answer;
     }
     
