@@ -1,7 +1,6 @@
 package com.backjoon.dp.q9251;
 
 import java.io.*;
-import java.util.*;
 
 public class Main {
 
