@@ -27,23 +27,26 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-	
-		
+
 		int n = Integer.parseInt(bf.readLine());
 	
 		for(int i = 0 ; i < n ;i++) {
 			int m = Integer.parseInt(bf.readLine());
 			root = new TrieNode();
 			String[] str = new String[m];
+			
+			//딕셔너리에 모두 입력
 			for(int j = 0 ; j < m ; j++) {
-				str[i] = bf.readLine();
+				str[j] = bf.readLine();
 				
-				insert(str[i]);
+				insert(str[j]);
 			}
 			
 			boolean chk = true;
+			
+			//이미 입력된 내용이 지워졌는지 확인
 			for(int j = 0 ; j < m; j++) {
-				if(!search(str[i])) {
+				if(!search(str[j])) {//못찾은게 하나라도 있으면
  					chk = false;
 					System.out.println("NO");
 					break;
@@ -54,14 +57,15 @@ public class Main {
 	}
 	
 	static void insert(String key) {
-		int level;
+		
 		int length = key.length();
 		int idx;
 		
 		TrieNode pCrawl = root;
 		
-		for(level = 0; level < length ; level++) {
+		for(int level = 0; level < length ; level++) {
 			idx = key.charAt(level) - '0';
+			//System.out.println("idx::" + idx);
 			if(pCrawl.children[idx] == null) {
 				pCrawl.children[idx] = new TrieNode();
 			}
@@ -73,18 +77,17 @@ public class Main {
 	}
 	
 	static boolean search(String key) {
-		int level;
 		int length = key.length();
 		int idx;
 		TrieNode pCrawl = root;
 
-		for(level = 0 ; level < length; level++) {
+		for(int level = 0 ; level < length; level++) {
 			idx = key.charAt(level) - '0';
 			
-			if(pCrawl == null || pCrawl.isEnd) return false;
+			if(pCrawl.isEnd) return false;
 			pCrawl = pCrawl.children[idx];
 		}
 		
-		return (pCrawl != null && pCrawl.isEnd);
+		return (pCrawl.isEnd);
 	}
 }
