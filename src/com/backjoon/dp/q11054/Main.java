@@ -4,55 +4,131 @@ package com.backjoon.dp.q11054;
 import java.io.*;
 import java.util.*;
 
+class TrieNode{
+	
+	TrieNode[] children;
+
+	boolean isEnd;
+	TrieNode fail;
+	
+	public TrieNode() {
+		isEnd = false;
+		children = new TrieNode[26];//a ~ z
+		for(int i = 0 ; i < 26; i++) {
+			children[i] = null;
+		}
+	}
+	public void wordEnd() {
+		isEnd = true;
+	}
+}
+
+
 public class Main {
+
+	static TrieNode root;
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-		// BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 		int n = Integer.parseInt(bf.readLine());
-
-		int[] l_dp = new int[n];
-		int[] r_dp = new int[n];
-		
-		StringTokenizer st = new StringTokenizer(bf.readLine());
-
-		// top-bottom
-		int[] arr = new int[n];
-
-		for (int i = 0; i < n; i++) {
-			int next = Integer.parseInt(st.nextToken());
-			arr[i] = next;
-			l_dp[i] = 1;
-			r_dp[i] = 1;
+	
+		//딕셔너리에 집어넣음
+		root = new TrieNode();
+		for(int i = 0 ; i < n ; i++) {
+			insert(bf.readLine());
 		}
-		//memo[1] = 0;
 		
-		int answer = 1;
-
-		for (int i = 0; i < n; i++) {
-			//가장긴 증가하는수열
-			int next = arr[i];		
-			for (int j = 0; j < i; j++) {
-				if (next > arr[j]) {
-					l_dp[i] = Math.max(l_dp[i], l_dp[j] + 1);
-				}
+		//실패후 돌아갈 failure 생성
+		buildFailure();
+		
+		int m = Integer.parseInt(bf.readLine());
+		
+		//문자탐색
+		for(int i = 0 ; i < m ; i++) {
+			if(search(bf.readLine()))System.out.println("YES");
+			else System.out.println("NO");
+		}
+		
+	}
+	
+	
+	static void insert(String key) {
+		
+		int length = key.length();
+		int idx;
+		
+		TrieNode pCrawl = root;
+		
+		for(int level = 0; level < length ; level++) {
+			idx = key.charAt(level) - 'a';
+			//System.out.println("idx::" + idx);
+			if(pCrawl.children[idx] == null) {
+				pCrawl.children[idx] = new TrieNode();
 			}
-
-			//가장 긴 감소하는 수열
-			next = arr[(n - 1) - i];
-			for(int j = n - 1 ; j >= n - i; j--) {//last[i]인덱스부터 내림차순으로 검색 추가로 들어감
-				if (next > arr[j]) {
-					r_dp[(n - 1) - i] = Math.max(r_dp[(n - 1) - i], r_dp[j] + 1);
+			
+			pCrawl = pCrawl.children[idx];
+		}		
+		
+		pCrawl.wordEnd();
+	}
+	
+	static void buildFailure() {
+		//fail 함수 만들기
+		Queue<TrieNode> que = new LinkedList<>();
+		que.offer(root);//root부터 bfs
+		
+		while(!que.isEmpty()) {
+			TrieNode pCrawl = que.poll();
+			
+			for(int i = 0 ; i < 26; i++) {
+				TrieNode next = pCrawl.children[i];
+				if(next == null)continue;
+				
+				//만일 현재값이 root일 경우 - fail은 root
+				if(pCrawl == root)next.fail = root;
+				//다른 경우 -> fail로 삼을 부모 trieNode를 찾는다
+				else {
+					TrieNode pre = pCrawl.fail;
+					while(pre != root && pre.children[i] == null) {
+						pre = pre.fail;
+					}
+					
+					if(pre.children[i] != null)pre = pre.children[i];
+					
+					next.fail = pre;
 				}
+				
+				if(next.fail.isEnd)next.isEnd = true;
+				
+				que.offer(next);
+			}
+		}
+	}
+	
+	//탐색
+	static boolean search(String key) {
+		int length = key.length();
+		int idx;
+		TrieNode pCrawl = root;
+		
+		boolean result = false;
+
+		for(int level = 0 ; level < length; level++) {
+			idx = key.charAt(level) - 'a';
+			
+			while(pCrawl != root && pCrawl.children[idx] == null) {
+				pCrawl = pCrawl.fail;
+			}
+			
+			if(pCrawl.children[idx] != null)pCrawl = pCrawl.children[idx];
+			
+			if(pCrawl.isEnd) {
+				result = true;
+				break;
 			}
 		}
 		
-		for(int i = 0 ; i < l_dp.length ;i++) {
-			answer = Math.max(l_dp[i] + r_dp[i] - 1, answer);
-		}
-		
-		
-		System.out.println(answer);
+		return result;
 	}
 }
