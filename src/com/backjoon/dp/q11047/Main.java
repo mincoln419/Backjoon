@@ -3,10 +3,7 @@ package com.backjoon.dp.q11047;
 import java.io.*;
 import java.util.*;
 
-
-import java.io.*;
-import java.util.*;
-
+/* 아호-코라식 알고리즘 기본 */
 class TrieNode{
 	
 	TrieNode[] children;
