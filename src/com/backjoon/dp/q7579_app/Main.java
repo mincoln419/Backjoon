@@ -1,13 +1,11 @@
 package com.backjoon.dp.q7579_app;
 
 import java.io.*;
-import java.util.*;
 
 public class Main {
 
 	static int[][] cache;
-	static int n;
-	static int[][] apps; 
+	static int n; 
 	public static void main(String[] args) throws Exception{
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -20,19 +18,20 @@ public class Main {
 		
 		read = bf.readLine().split(" ");
 		String[] bytes = bf.readLine().split(" ");
-		apps = new int[n][2];
+		int[] mem = new int[n];
+		int[] cost = new int[n];
 		
 		for(int i = 0 ; i < n ; i++) {
-			apps[i][0] = Integer.parseInt(read[i]);
-			apps[i][1] = Integer.parseInt(bytes[i]);
+			mem[i] = Integer.parseInt(read[i]);
+			cost[i] = Integer.parseInt(bytes[i]);
 		}
 		int answer = Integer.MAX_VALUE;
 		for(int i = 0 ; i < n ; i++) {
 			for(int j = 0 ; j <= 10000; j++) {
 				if(i == 0) {
-					if(j >= apps[i][1])cache[i][j] = apps[i][0];
+					if(j >= cost[i])cache[i][j] = mem[i];
 				}else {
-					if(j >= apps[i][1])cache[i][j] = Math.max(cache[i - 1][j - apps[i][1]] + apps[i][0], cache[i - 1][j]);
+					if(j >= cost[i])cache[i][j] = Math.max(cache[i - 1][j - cost[i]] + mem[i], cache[i - 1][j]);
 					else cache[i][j] = cache[i - 1][j];
 				}
 				
