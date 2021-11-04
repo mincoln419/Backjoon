@@ -10,7 +10,6 @@ public class Main {
 	static long INF = Long.MAX_VALUE;
 	static int v, e, k;
 
-	// Bipartite
 	public static void main(String[] args) throws Exception {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
