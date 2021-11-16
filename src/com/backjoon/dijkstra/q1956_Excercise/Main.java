@@ -49,7 +49,4 @@ public class Main {
 		if(answer == INF)System.out.println(-1);
 		else System.out.println(answer);
 	}
-	
-
-
 }
