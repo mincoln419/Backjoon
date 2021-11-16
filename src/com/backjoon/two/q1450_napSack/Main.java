@@ -3,6 +3,7 @@ package com.backjoon.two.q1450_napSack;
 import java.io.*;
 import java.util.*;
 
+/* 투포인터  in the middle + 이분탐색*/
 public class Main {
 
 	static int INF = Integer.MAX_VALUE;
@@ -42,7 +43,7 @@ public class Main {
 				int mid = (min + max) / 2;	
 				
 				if(right.get(mid) <= x) min = mid + 1;
-				else max = mid;
+				else max = mid - 1;
 			}
 			answer += max;
 		}
