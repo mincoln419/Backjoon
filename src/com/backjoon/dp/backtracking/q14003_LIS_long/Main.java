@@ -32,12 +32,12 @@ public class Main {
 		
 		for(int i = 1 ; i < n ; i++) {
 			
-			if(dp[size - 1] < arr[i]) {//LIS가 계속되므로 dp값 세팅 
+			if(dp[size - 1] < arr[i]) {//현재까지의 LIS 최대값보다 클경우 LIS의 길이 증가.. -> 현재까지의 LIS 최대값 갱신 
 				index[i] = size;
 				dp[size] = arr[i];
 				size++;
 				continue;
-			}else if(dp[size - 1] == arr[i]) {
+			}else if(dp[size - 1] == arr[i]) {//현재까지의 LIS 최대값과 동일하므로...
 				index[i] = size - 1;
 				continue;
 			}
