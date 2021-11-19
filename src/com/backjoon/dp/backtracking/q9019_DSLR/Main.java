@@ -128,23 +128,12 @@ public class Main {
 	}
 	
 	static int getL(int num) {
-		int a = num / 1000;
-		int b = (num - a * 1000) / 100;
-		int c = (num - a * 1000 - b * 100) / 10;
-		int d = (num - a * 1000 - b * 100 - c * 10);
-				
-		int result  = b * 1000 + c * 100 + d * 10 + a;
+		int result = (num % 1000) * 10 + num / 1000;
 		return result;
 	}
 	
 	static int getR(int num) {
-		int a = num / 1000;
-		int b = (num - a * 1000) / 100;
-		int c = (num - a * 1000 - b * 100) / 10;
-		int d = (num - a * 1000 - b * 100 - c * 10);
-				
-		int result  = d * 1000 + a * 100 + b * 10 + c;
-		
+		int result = (num / 10) + (num % 10) * 1000;
 		return result;
 	}
 }
