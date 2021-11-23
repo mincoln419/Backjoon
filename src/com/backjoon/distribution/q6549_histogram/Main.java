@@ -8,7 +8,6 @@ import java.io.OutputStreamWriter;
 public class Main {
 
 	static int[] arr;
-	/* 세그먼트 트리 - 분할정복 */
 
 	public static void main(String[] args) throws Exception {
 
