@@ -69,6 +69,5 @@ public class Main {
 				dp[r] += dp[next];
 			}
 		}
-		
 	}
 }
