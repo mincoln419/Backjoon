@@ -9,112 +9,101 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
+	static int n;
+	static int[] w;
+	static int[][] dp;
+	static int[] visited;
+	static List<Integer>[] list;
+	static List<Integer> answer;
 
-	static List<Integer>[] node_list;
-	static int[] weight;
-	static int[][] memo;
-	static boolean[] check;
-	static List<Integer> res;
+	static int maxWeight;
 
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-		int n = Integer.parseInt(br.readLine());
+		n = Integer.parseInt(br.readLine());
 
-		weight = new int[n + 1];
-		node_list = new ArrayList[n + 1];
-		memo = new int[n + 1][2];
-		check = new boolean[n + 1];
-		res = new ArrayList<>();
-		for (int i = 0; i < n + 1; i++) {
-			node_list[i] = new ArrayList<>();
-		}
+		String[] read = br.readLine().split(" ");
+		w = new int[n + 1];
+		dp = new int[n + 1][2];
+		visited = new int[n + 1];
+		answer = new ArrayList<>();
 
-		StringTokenizer st = new StringTokenizer(br.readLine());
-
-		for (int i = 1; i < n + 1; i++) {
-			weight[i] = Integer.parseInt(st.nextToken());
+		list = new List[n + 1];
+		// 가중치 세팅
+		for (int i = 0; i < n; i++) {
+			w[i + 1] = Integer.parseInt(read[i]);
+			list[i + 1] = new ArrayList<>();
 		}
 
 		for (int i = 0; i < n - 1; i++) {
-			st = new StringTokenizer(br.readLine());
+			StringTokenizer st = new StringTokenizer(br.readLine());
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
-
-			node_list[b].add(a);
-			node_list[a].add(b);
+			list[a].add(b);
+			list[b].add(a);
 		}
 
-		traversal(1);
-
-		if (memo[1][1] > memo[1][0]) {
-			System.out.println(memo[1][1]);
-			trace(1, 1);
-		} else {
-			System.out.println(memo[1][0]);
-			trace(1, 0);
+		visited = new int[n + 1];
+		makeTree(1);
+		visited[1] = 1;
+		
+		if(dp[1][1] > dp[1][0]) {
+			maxWeight = dp[1][1];
+			trace(1, true);
+		}else {
+			maxWeight = dp[1][0];
+			trace(1, false);
+		}
+		
+		System.out.println(maxWeight);
+		Collections.sort(answer);
+		for (int i = 0; i < answer.size(); i++) {
+			System.out.print(answer.get(i) + " ");
 		}
 
-		Collections.sort(res);
-		for (int num : res) {
-			System.out.print(num + " ");
-		}
+
+		br.close();
 	}
 
-	static void traversal(int pos) {
-
-		int child_num = node_list[pos].size();
-
-		memo[pos][0] = 0; // 참석 x
-		memo[pos][1] = weight[pos]; // 참석 o
-
-		if (child_num == 0)
-			return;
-
-		check[pos] = true;
-
-		for (int child : node_list[pos]) {
-			if (!check[child]) {
-				traversal(child);
-
-				// 자식 x > 자식 o
-				if (memo[child][0] > memo[child][1]) {
-					memo[pos][0] += memo[child][0]; // 부모 x 자식 x
-
-				} else { // 자식 x < 자식 o
-					memo[pos][0] += memo[child][1]; // 부모 x 자식 o
-				}
-
-				memo[pos][1] += memo[child][0]; // (공통) 부모 o 자식 x
-			}
-		}
-		check[pos] = false;
-	}
-
-	static void trace(int pos, int attend) {
-		check[pos] = true;
-		if (attend == 1) {
-			res.add(pos);
-			for (int i = 0; i < node_list[pos].size(); i++) {
-				int next = node_list[pos].get(i);
-				if (!check[next]) {
-					trace(next, 0);
-				}
-			}
-		} else {
-			for (int i = 0; i < node_list[pos].size(); i++) {
-				int next = node_list[pos].get(i);
-				if (!check[next]) {
-					if (memo[next][1] > memo[next][0]) {
-						trace(next, 1);
-					} else {
-						trace(next, 0);
-					}
+	private static void trace(int node, boolean flag) {
+		if(flag)answer.add(node);
+		
+		for(int i = 0 ; i < list[node].size() ;i++) {
+			int next = list[node].get(i);
+			if(visited[next] == 1) continue;
+			visited[next] = 1;
+			
+			if(flag) {
+				trace(next, false);
+			}else {
+				if(dp[next][1] > dp[next][0]) {
+					trace(next, true);
+				}else {
+					trace(next, false);
 				}
 			}
 		}
-		check[pos] = false;
-
 	}
+
+	//node가 포함되는 가장 큰 독립집합
+	private static void makeTree(int node) {
+		
+		dp[node][1] = w[node];//node가 포함되었을 경우
+		dp[node][0] = 0; //node가 포함되어있지 않을 경우
+		visited[node] = 1;
+		
+		for(int i = 0 ; i < list[node].size(); i++) {
+			
+			int next = list[node].get(i);
+			
+			if(visited[next] == 1)continue;
+			makeTree(next);
+			dp[node][1] += dp[next][0];
+			dp[node][0] += Math.max(dp[next][1], dp[next][0]); 
+		}
+		visited[node] = 0;
+	}
+
 }
