@@ -1,3 +1,5 @@
+
+
 # Input (Python 3)
 print(500, 500)
 
