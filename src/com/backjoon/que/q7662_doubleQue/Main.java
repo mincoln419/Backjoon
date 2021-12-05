@@ -18,17 +18,17 @@ public class Main {
 		for (int t = 0; t < T; t++) {
 
 			int k = Integer.parseInt(br.readLine());
-			PriorityQueue<Integer[]> que = new PriorityQueue<>((o1, o2) -> o1[0] - o2[0]);// 오름차순으로 out
-			PriorityQueue<Integer[]> reque = new PriorityQueue<>((o1, o2) -> o2[0] - o1[0]);// 내림차순으로 out
+			PriorityQueue<Long[]> que = new PriorityQueue<>((o1, o2) -> o1[0].compareTo(o2[0]));// 오름차순으로 out
+			PriorityQueue<Long[]> reque = new PriorityQueue<>((o1, o2) -> o2[0].compareTo(o1[0]));// 내림차순으로 out
 			
 			int[] memo = new int[1000000];// 최대 입력 수 배열
 			int insCnt = 0;
 			for (int i = 0; i < k; i++) {
 				String[] read = br.readLine().split(" ");
-				int num = Integer.parseInt(read[1]);
+				Long num = Long.parseLong(read[1]);
 				if (read[0].equals("I")) {
-					que.offer(new Integer[] { num, i });
-					reque.offer(new Integer[] { num, i });
+					que.offer(new Long[] { num, (long)i });
+					reque.offer(new Long[] { num, (long)i });
 					insCnt++;
 				} else if (read[0].equals("D")) {
 					if (insCnt == 0)
@@ -36,18 +36,18 @@ public class Main {
 					if (num == 1) {
 						// 최대값 out
 						while (true) {
-							Integer[] poll = reque.poll();
-							if (memo[poll[1]] == 0) {
-								memo[poll[1]] = 1;
+							Long[] poll = reque.poll().clone();
+							if (memo[poll[1].intValue()] == 0) {
+								memo[poll[1].intValue()] = 1;
 								break;
 							}
 						}
 						insCnt--;
 					} else if (num == -1) {
 						while (true) {
-							Integer[] poll = que.poll();
-							if (memo[poll[1]] == 0) {
-								memo[poll[1]] = 1;
+							Long[] poll = que.poll().clone();
+							if (memo[poll[1].intValue()] == 0) {
+								memo[poll[1].intValue()] = 1;
 								break;
 							}
 						}
@@ -61,17 +61,18 @@ public class Main {
 			if (insCnt == 0) {
 				bw.write("EMPTY\n");
 			} else {
-				int min = 0, max = 0;
+				long min = 0;
+				long max = 0;
 				while (!reque.isEmpty()) {
-					Integer[] poll = reque.poll();
-					if (memo[poll[1]] == 0) {
+					Long[] poll = reque.poll().clone();
+					if (memo[poll[1].intValue()] == 0) {
 						max = poll[0];
 						break;
 					}
 				}
 				while (!que.isEmpty()) {
-					Integer[] poll = que.poll();
-					if (memo[poll[1]] == 0) {
+					Long[] poll = que.poll().clone();
+					if (memo[poll[1].intValue()] == 0) {
 						min = poll[0];
 						break;
 					}
