@@ -39,6 +39,7 @@ public class Main {
 		int j = 0;
 		
 		for(int i = 0 ; i < n ; i++) {
+			//데이터가 일치할때까지 
 			while(j > 0 && s.charAt(i) != p.charAt(j)) {
 				j = pi[j - 1];
 			}
@@ -61,6 +62,7 @@ public class Main {
 		
 		int[] pi = new int[m];
 		
+		//찾을 단어의 접두사, 접미사 공통부를 찾음
 		for(int i = 1; i < m; i++) {
 			while(j > 0 && p.charAt(i) != p.charAt(j)) {
 				j = pi[j - 1];
