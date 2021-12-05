@@ -20,8 +20,8 @@ public class Main {
 		for(int t = 0 ; t < T ; t ++) {
 			
 			int k = Integer.parseInt(br.readLine());
-			PriorityQueue<Integer> que = new PriorityQueue<>();
-			PriorityQueue<Integer> reque = new PriorityQueue<>((o1, o2) -> o2 - o1);
+			PriorityQueue<Integer> que = new PriorityQueue<>();//오름차순으로 out
+			PriorityQueue<Integer> reque = new PriorityQueue<>((o1, o2) -> o2 - o1);//내림차순으로 out
 			int insCnt = 0;
 			for(int i = 0 ; i < k ; i++) {
 				String[] read = br.readLine().split(" ");
@@ -31,16 +31,18 @@ public class Main {
 					reque.offer(num);
 					insCnt++;
 				}else if(read[0].equals("D")) {
+					if(insCnt == 0)continue;//만약 Q가 비어있는데 적용할 연산이 ‘D’라면 이 연산은 무시해도 좋다. 
 					if(num > 0) {
-						reque.poll();
+						reque.poll(); //최대값 out
 					}else {
-						que.poll();	
+						que.poll(); //최소값 out
 					}
 					insCnt--;
 				}
 				
 			}
-			if(insCnt <= 0) {
+			
+			if(insCnt == 0) {
 				bw.write("EMPTY\n");
 			}else {
 				bw.write(reque.peek() + " " + que.peek());
