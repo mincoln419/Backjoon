@@ -41,22 +41,30 @@ public class QuickSort2 {
 		rstack.push(right);
 		
 		while(!lstack.isEmpty()) {
+			System.out.println("________________________________");
 			int pl = left = lstack.pop(); //왼쪽 커서
 			int pr = right = rstack.pop(); //오른쪽 커서
+			System.out.printf("pop left : [%d] right : [%d]\n", a[pl], a[pr]);
 			int x = a[(left + right) / 2];//피벗
-			
+			System.out.println("피벗: " + x);
 			while(pl <= pr) {
 				while(a[pl] < x) pl++;
 				while(a[pr] > x) pr--;
-				if(pl <= pr)swap(a, pl++, pr--);
+				
+				if(pl <= pr) {
+					System.out.printf("swapping:: [%d] - [%d]\n", a[pl], a[pr]);
+					swap(a, pl++, pr--);
+				}
 			}
 			
 			if(left < pr) {
+				System.out.printf("push left : [%d] right : [%d]\n", a[left], a[pr]);
 				lstack.push(left);
 				rstack.push(pr);
 			}
 			
 			if(pl < right) {
+				System.out.printf("push left : [%d] right : [%d]\n", a[pl], a[right]);
 				lstack.push(pl);
 				rstack.push(right);
 			}
