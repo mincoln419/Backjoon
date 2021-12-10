@@ -2,12 +2,12 @@ package com.mermer.sort;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Stack;
 
 /*
- * 퀵정렬 재귀적 방법
+ * 퀵정렬 비재귀적 방법
  * */
-public class QuickSort {
-
+public class QuickSort2 {
 	public static void main(String[] args) throws Exception{
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		int nx = Integer.parseInt(bf.readLine());
@@ -34,25 +34,33 @@ public class QuickSort {
 	}
 
 	private static void quickSort(int[] a, int left, int right) {
-
-		int pl = left;
-		int pr = right;
-		int x = a[(pl + pr)/2];
+		Stack<Integer> lstack = new Stack<>();
+		Stack<Integer> rstack = new Stack<>();
 		
-		System.out.printf("a[%d] ~ a[%d] : {", left, right);
-		for(int i = left; i < right; i++) {
-			System.out.printf("%d , ", a[i]);
+		lstack.push(left);
+		rstack.push(right);
+		
+		while(!lstack.isEmpty()) {
+			int pl = left = lstack.pop(); //왼쪽 커서
+			int pr = right = rstack.pop(); //오른쪽 커서
+			int x = a[(left + right) / 2];//피벗
+			
+			while(pl <= pr) {
+				while(a[pl] < x) pl++;
+				while(a[pr] > x) pr--;
+				if(pl <= pr)swap(a, pl++, pr--);
+			}
+			
+			if(left < pr) {
+				lstack.push(left);
+				rstack.push(pr);
+			}
+			
+			if(pl < right) {
+				lstack.push(pl);
+				rstack.push(right);
+			}
 		}
-		System.out.printf("%d}\n" , a[right]);
-		
-		while(pl <= pr) {
-			while(a[pl] < x)pl++;
-			while(a[pr] > x)pr--;
-			if(pl <= pr)swap(a, pl++, pr--);
-		}
-		
-		if(left < pr)quickSort(a, left, pr);
-		if(pl < right)quickSort(a, pl, right);
 		
 	}
 
@@ -62,3 +70,4 @@ public class QuickSort {
 		a[idx2] = tmp;	
 	}
 }
+

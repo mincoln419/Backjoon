@@ -34,7 +34,7 @@ public class Partition {
 	private static void partition(int[] a, int n) {
 		int pl = 0;
 		int pr = n - 1;
-		int x = a[n / 2];
+		int x = a[n / 2];  //중간 값을 임의의 피벗 수로 잡음
 		
 		while(pl <= pr) {
 			while(a[pl] < x)pl++;
