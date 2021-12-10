@@ -5,12 +5,14 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-public class ShellSort {
+public class ShellSort2 {
 
 	static void shellSort(int[] a, int n) {
-		//정렬을 위해 데이터를 변경한 횟수
 		int cnt = 0;
-		for(int h = n / 2; h> 0 ; h/= 2) {
+		int h = 0;
+		for(h = 1; h < n / 9; h = h * 3 + 1);
+		
+		for(; h> 0 ; h/= 3) {
 			for(int i = h; i < n ; i++) {
 				int j = 0;
 				int tmp = a[i];
@@ -18,7 +20,7 @@ public class ShellSort {
 					a[j + h] = a[j];
 					cnt++;
 				}
-				a[j + h]  =tmp;
+				a[j + h]  = tmp;
 			}
 		}
 		System.out.println("cnt::" + cnt);
@@ -28,7 +30,7 @@ public class ShellSort {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
-		bw.write("셸 정렬(버전 1)\n");
+		bw.write("셸 정렬(버전 2)\n");
 		bw.write("요소수 ");
 		int nx = Integer.parseInt(bf.readLine());
 		bw.write(nx + "\n");
