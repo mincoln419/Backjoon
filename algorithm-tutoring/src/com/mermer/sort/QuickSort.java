@@ -37,7 +37,14 @@ public class QuickSort {
 
 		int pl = left;
 		int pr = right;
-		int x = a[(pl + pr)/2];
+		/* 
+		 * 방법 2. 나눌 배열의 처음, 가운데, 끝 요소를 정렬한 다음 가운데 요소와 끝에서 두번째 요소를 교환.
+		 * 피벗으로 끝에서 두 번째 요소의 값(a[right-1] 을 선택하여 나눌 대상의 범위를 a[left + 1] ~ a[right-2]로 좁힌다.
+		 * */ 
+		int x = 0;
+		if(right - left == 1) x = a[(left + right) / 2];
+		else x = a[getPivot(a, left, right)];
+		System.out.println("피벗: " + x);
 		
 		System.out.printf("a[%d] ~ a[%d] : {", left, right);
 		for(int i = left; i < right; i++) {
@@ -54,6 +61,25 @@ public class QuickSort {
 		if(left < pr)quickSort(a, left, pr);
 		if(pl < right)quickSort(a, pl, right);
 		
+	}
+
+	private static int getPivot(int[] a, int left, int right) {
+
+		int mid = (left + right)/2;
+		int tmp = 0;
+		
+		if(a[left] > a[right]) {
+			swap(a, left, right);	
+		}
+		
+		if(a[left] > a[mid]) {
+			swap(a, left, mid);
+		}
+		
+		if(a[mid] > a[right]) {
+			swap(a, mid, right);
+		}
+		return right - 1;
 	}
 
 	private static void swap(int[] a, int idx1, int idx2) {

@@ -45,7 +45,11 @@ public class QuickSort2 {
 			int pl = left = lstack.pop(); //왼쪽 커서
 			int pr = right = rstack.pop(); //오른쪽 커서
 			System.out.printf("pop left : [%d] right : [%d]\n", a[pl], a[pr]);
-			int x = a[(left + right) / 2];//피벗
+			//방법 1. 나눌 배열의 요소 개수가 3 이상이면 임의 요소 3을 선택하고 그중에서 중앙값인 요소로 피벗 선택
+			int x = 0;
+			if(right - left == 1) x = a[(left + right) / 2];
+			else x = a[getPivot(a, left, right)];
+			
 			System.out.println("피벗: " + x);
 			while(pl <= pr) {
 				while(a[pl] < x) pl++;
@@ -70,6 +74,13 @@ public class QuickSort2 {
 			}
 		}
 		
+	}
+
+	private static int getPivot(int[] a, int left, int right) {
+		int mid = (left + right)/2;
+		if(a[left] <= a[right] && a[right] <= a[mid])return right;
+		else if(a[mid] <= a[left] && a[left] <= a[right])return left; 
+		else return mid;
 	}
 
 	private static void swap(int[] a, int idx1, int idx2) {
