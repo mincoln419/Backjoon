@@ -8,27 +8,23 @@ import java.io.OutputStreamWriter;
 import java.nio.ByteBuffer;
 import java.util.*;
 
+import com.mermer.util.TestUtil;
+
 public class MergeSort {
 
 	//병합정렬 구현
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		File file = new File("src/com/mermer/sort/target/test.txt");
 		FileOutputStream bw = new FileOutputStream(file);
-		List<Integer> list = new LinkedList<>();
-		
-		for(int i = 0 ; i < 100000 ; i ++) {
-			int ran = (int)(Math.random() * 10000000);
-			if(list.contains(ran))continue;
-			list.add(ran);
-		}
+		List<Integer> list = TestUtil.getRandomArrAsList(100, 100, true);
 		
 		//랜덤한 수 10개
-		for(int a : list)bw.write((a + "\n").getBytes());
+		for(int a : list)bw.write((a + " ").getBytes());
 		bw.write("\n".getBytes());
 		
 		List<Integer> reult = split(list);
 		//정렬한 값
-		for(int a : reult) bw.write((a + "\n").getBytes());
+		for(int a : reult) bw.write((a + " ").getBytes());
 		bw.write("\n".getBytes());
 		
 		
