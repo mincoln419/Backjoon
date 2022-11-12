@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Main25305 {
@@ -26,7 +27,7 @@ public class Main25305 {
 				.mapToInt(str -> Integer.parseInt(str))
 				.boxed()
 				.sorted((o1, o2) -> o2 - o1)
-				.toList();
+				.collect(Collectors.toList());
 		
 		bw.write(String.valueOf(points.get(cutline - 1)));
 		
