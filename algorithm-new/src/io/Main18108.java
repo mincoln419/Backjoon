@@ -5,7 +5,7 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-public class Main10926 {
+public class Main18108 {
 
 	
 	public static void main(String[] args) throws Exception {
@@ -13,13 +13,14 @@ public class Main10926 {
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 		String read = bf.readLine();
-	
-		int year = Integer.parseInt(read);
 		
-		//2541 = 1998 + a
-		int a = 2541 - 1998;
-				
-		bw.write(String.valueOf(year - a));
+		String add = "??!";
+
+		StringBuffer sb = new StringBuffer();
+		sb.append(read);
+		sb.append(add);
+		
+		bw.write(sb.toString());
 		
 		bf.close();
 		bw.flush();
