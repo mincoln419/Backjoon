@@ -19,11 +19,29 @@ public class SumWhile {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
+		int n = 0;
+		int m = 0;
 		System.out.println("1 부터 n 까지의 합을 구합니다.");
-		System.out.print("n의 값:");
-		int n = scanner.nextInt();
-		System.out.print("m의 값:");
-		int m = scanner.nextInt();
+		while(true) {
+			System.out.print("n의 값:");
+			n = scanner.nextInt();
+			if(n <= 0) {
+				System.out.println("n을 양수로 입력해주세요.");
+				continue;
+			}
+			break;
+		}
+
+		while(true) {
+			System.out.print("m의 값:");
+			m = scanner.nextInt();
+			if(m <= 0) {
+				System.out.println("m을 양수로 입력해주세요.");
+				continue;
+			}
+			break;
+		}
+
 
 		//sum(n);
 
@@ -58,7 +76,7 @@ public class SumWhile {
 		int i = 1;
 
 		while(i <= num/2) {
-			result += (i + ((num + 1) - i));
+			result += num + 1;
 			i++;
 		}
 		if(num%2 == 1) {
@@ -77,14 +95,16 @@ public class SumWhile {
 		}
 
 		int result = 0;
-		int i = from;
+		int i = 1;
 
-		while(i <= (from + to)/2) {
-			result += (i + ((to + i) - i));
+		while(i <= (to - from + 1)/2) {
+			result += from + to;
+			//System.out.println("===> " + result );
 			i++;
 		}
-		if((to-from)%2 == 1) {
-			result += i;
+
+		if((to - from + 1)%2 == 1) {
+			result += (from + to)/2;
 		}
 		System.out.println(from + "부터 " + to + "까지의 합은 " + result + " 입니다.");
 	}
